@@ -1,8 +1,9 @@
 import { Router } from "express"
 import type { Database } from "bun:sqlite"
+import { z } from "zod"
 import { createProductSchema, updateProductSchema, listProductsQuerySchema } from "../validation"
 
-type ProductRow = {
+export type ProductRow = {
   id: number
   name: string
   description: string | null
@@ -17,7 +18,7 @@ export function createProductsRouter(db: Database): Router {
 
   router.post("/", (req, res) => {
     const parsed = createProductSchema.safeParse(req.body)
-    if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() })
+    if (!parsed.success) return res.status(400).json({ error: z.treeifyError(parsed.error) })
 
     const { name, description, price, category, stock } = parsed.data
     const row = db
@@ -31,7 +32,7 @@ export function createProductsRouter(db: Database): Router {
 
   router.get("/", (req, res) => {
     const parsed = listProductsQuerySchema.safeParse(req.query)
-    if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() })
+    if (!parsed.success) return res.status(400).json({ error: z.treeifyError(parsed.error) })
 
     const { category, name, minPrice, maxPrice, limit, offset } = parsed.data
     const conditions: string[] = []
@@ -73,7 +74,7 @@ export function createProductsRouter(db: Database): Router {
     if (!existing) return res.status(404).json({ error: "Product not found" })
 
     const parsed = updateProductSchema.safeParse(req.body)
-    if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() })
+    if (!parsed.success) return res.status(400).json({ error: z.treeifyError(parsed.error) })
 
     const merged = { ...existing, ...parsed.data }
     const row = db

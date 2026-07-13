@@ -2,6 +2,13 @@
 
 Express + TypeScript CRUD service for a `product` resource, backed by SQLite (`bun:sqlite`), running on Bun.
 
+## Prerequisites
+
+- [Bun](https://bun.sh) v1.3+ (tested on 1.3.8). Bun replaces Node/npm here — no separate Node install needed.
+  ```
+  curl -fsSL https://bun.sh/install | bash
+  ```
+
 ## Setup
 
 ```
@@ -38,6 +45,8 @@ Tests run against an in-memory SQLite database (`:memory:`), isolated from the d
 | GET    | /products/:id | Get a product                                                                             |
 | PUT    | /products/:id | Update a product (partial body)                                                          |
 | DELETE | /products/:id | Delete a product                                                                          |
+
+Validation errors return `400` with `{ "error": <zod treeifyError() output> }`; missing resources return `404` with `{ "error": "Product not found" }`.
 
 ### Product shape
 

@@ -2,6 +2,7 @@ import { describe, test, expect, beforeAll, afterAll } from "bun:test"
 import type { Server } from "http"
 import { createApp } from "../src/app"
 import { createDb } from "../src/db"
+import type { ProductRow } from "../src/routes/products"
 
 let server: Server
 let baseUrl: string
@@ -29,7 +30,7 @@ describe("products CRUD", () => {
     })
     expect(res.status).toBe(201)
 
-    const body = await res.json()
+    const body = (await res.json()) as ProductRow
     expect(body.name).toBe("Widget")
     expect(body.category).toBe("tools")
     createdId = body.id
@@ -48,7 +49,7 @@ describe("products CRUD", () => {
     const res = await fetch(`${baseUrl}/products`)
     expect(res.status).toBe(200)
 
-    const body = await res.json()
+    const body = (await res.json()) as ProductRow[]
     expect(Array.isArray(body)).toBe(true)
     expect(body.length).toBeGreaterThan(0)
   })
@@ -61,29 +62,29 @@ describe("products CRUD", () => {
     })
 
     const res = await fetch(`${baseUrl}/products?category=tools`)
-    const body = await res.json()
+    const body = (await res.json()) as ProductRow[]
     expect(body.length).toBeGreaterThan(0)
-    expect(body.every((p: { category: string }) => p.category === "tools")).toBe(true)
+    expect(body.every((p) => p.category === "tools")).toBe(true)
   })
 
   test("GET /products filters by name substring", async () => {
     const res = await fetch(`${baseUrl}/products?name=widg`)
-    const body = await res.json()
+    const body = (await res.json()) as ProductRow[]
     expect(body.length).toBeGreaterThan(0)
-    expect(body.every((p: { name: string }) => p.name.toLowerCase().includes("widg"))).toBe(true)
+    expect(body.every((p) => p.name.toLowerCase().includes("widg"))).toBe(true)
   })
 
   test("GET /products filters by price range", async () => {
     const res = await fetch(`${baseUrl}/products?minPrice=5&maxPrice=10`)
-    const body = await res.json()
-    expect(body.every((p: { price: number }) => p.price >= 5 && p.price <= 10)).toBe(true)
+    const body = (await res.json()) as ProductRow[]
+    expect(body.every((p) => p.price >= 5 && p.price <= 10)).toBe(true)
   })
 
   test("GET /products/:id returns a product", async () => {
     const res = await fetch(`${baseUrl}/products/${createdId}`)
     expect(res.status).toBe(200)
 
-    const body = await res.json()
+    const body = (await res.json()) as ProductRow
     expect(body.id).toBe(createdId)
   })
 
@@ -100,7 +101,7 @@ describe("products CRUD", () => {
     })
     expect(res.status).toBe(200)
 
-    const body = await res.json()
+    const body = (await res.json()) as ProductRow
     expect(body.price).toBe(19.99)
     expect(body.name).toBe("Widget") // untouched fields are preserved
   })

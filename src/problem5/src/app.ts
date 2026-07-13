@@ -4,7 +4,10 @@ import { createProductsRouter } from "./routes/products"
 
 export function createApp(db: Database) {
   const app = express()
+
   app.use(express.json())
+
   app.use("/products", createProductsRouter(db))
+
   return app
 }
