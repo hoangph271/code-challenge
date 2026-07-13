@@ -1,10 +1,10 @@
-# Problem 5 — Product CRUD API
+# Problem 5: Product CRUD API
 
 Express + TypeScript CRUD service for a `product` resource, backed by SQLite (`bun:sqlite`), running on Bun.
 
 ## Prerequisites
 
-- [Bun](https://bun.sh) v1.3+ (tested on 1.3.8). Bun replaces Node/npm here — no separate Node install needed.
+- [Bun](https://bun.sh) v1.3+ (tested on 1.3.8).
   ```
   curl -fsSL https://bun.sh/install | bash
   ```
@@ -25,8 +25,8 @@ bun run start  # no watch
 
 Server listens on `http://localhost:3000` by default. Env vars:
 
-- `PORT` — server port (default `3000`)
-- `DB_PATH` — SQLite file path (default `data.sqlite`, created on first run)
+- `PORT`: server port (default `3000`)
+- `DB_PATH`: SQLite file path (default `data.sqlite`, created on first run)
 
 ## Test
 
@@ -64,4 +64,4 @@ Validation errors return `400` with `{ "error": <zod treeifyError() output> }`; 
 
 ## Notes
 
-Authentication & authorization are intentionally left out — they require proper setup (user model, session/token handling, permissions) that's outside the scope of this exercise, which focuses on the CRUD and persistence layer.
+Authentication & authorization are intentionally left out: they require proper setup (user model, session/token handling, permissions) that's outside the scope of this exercise, which focuses on the CRUD and persistence layer.
