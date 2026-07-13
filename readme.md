@@ -8,3 +8,8 @@ It is important that you minimally attempt the problems, even if you do not arri
 ## Submission ##
 You can either provide a link to an online repository, attach the solution in your application, or whichever method you prefer.
 We're cool as long as we can view your solution without any pain.
+
+## Solutions ##
+- [Problem 4](src/problem4) - Three ways to sum to n
+- [Problem 5](src/problem5/README.md) - Product CRUD API
+- [Problem 6](src/problem6/README.md) - Live Scoreboard API Module (architecture spec)
